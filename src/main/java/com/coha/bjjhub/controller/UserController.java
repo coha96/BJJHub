@@ -9,10 +9,7 @@ import com.coha.bjjhub.service.UserService;
 import com.coha.bjjhub.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,5 +81,19 @@ public class UserController {
         user.setRefreshToken(userDto.getRefreshToken());
 
         return user;
+    }
+
+    @PostMapping("/password-reset/request")
+    public ResponseEntity<String> requestPasswordReset(@RequestParam String email) {
+        userService.createPasswordResetTokenForUser(email);
+        return ResponseEntity.ok("재설정 토큰을 이메일로 전송하였습니다.");
+    }
+
+    @PostMapping("/password-reset/confirm")
+    public ResponseEntity<String> confirmPasswordReset(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        String newPassword = body.get("newPassword");
+        userService.validateAndResetPassword(token, newPassword);
+        return ResponseEntity.ok("비밀번호가 성공적으로 재설정되었습니다.");
     }
 }

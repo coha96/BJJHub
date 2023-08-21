@@ -29,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .headers().frameOptions().disable()  // H2 콘솔을 위한 설정
+                .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/register", "/users/login", "/h2-console/**").permitAll() // H2 콘솔과 사용자 등록, 로그인에 대한 경로를 허용
+                .antMatchers("/users/register", "/users/login", "/users/password-reset/**", "/users/password-reset/confirm", "/h2-console/**").permitAll()
                 .antMatchers("/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
                 .antMatchers("/users/refresh").permitAll()  // 리프레시 토큰 엔드포인트 허용
                 .anyRequest().authenticated()

@@ -2,6 +2,7 @@ package com.coha.bjjhub.entity;
 
 import lombok.*;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -35,4 +36,9 @@ public class User {
     @Column
     private String refreshToken;
 
+    @Column
+    private String resetToken;
+
+    @Column
+    private LocalDateTime tokenExpiryDate;
 }
