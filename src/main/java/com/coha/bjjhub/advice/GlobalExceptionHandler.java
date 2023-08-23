@@ -47,6 +47,4 @@ public class GlobalExceptionHandler {
         log.error("Internal server error: {}", e.getMessage()); // 내부 서버 오류
         return new ResponseEntity<>("서버 내부 오류가 발생하였습니다. 관리자에게 문의해주세요.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
 }

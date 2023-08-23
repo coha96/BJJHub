@@ -1,8 +1,11 @@
 package com.coha.bjjhub.entity;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,18 +30,10 @@ public class User {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @Column
-    private String refreshToken;
-
-    @Column
-    private String resetToken;
-
-    @Column
-    private LocalDateTime tokenExpiryDate;
 }

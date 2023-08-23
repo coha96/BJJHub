@@ -5,6 +5,7 @@ import com.coha.bjjhub.dto.UserDTO;
 import com.coha.bjjhub.dto.UserLoginDTO;
 import com.coha.bjjhub.entity.RoleType;
 import com.coha.bjjhub.entity.User;
+import com.coha.bjjhub.entity.UserRefreshTokens;
 import com.coha.bjjhub.service.UserService;
 import com.coha.bjjhub.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,12 @@ public class UserController {
         User user = userService.login(userLoginDTO.getUserId(), userLoginDTO.getPassword());
         String token = jwtUtil.generateToken(user.getUserId());
         String refreshToken = jwtUtil.generateRefreshToken();
-        user.setRefreshToken(refreshToken);
-        userService.updateUser(user);
+
+        UserRefreshTokens userRefreshToken = new UserRefreshTokens();
+        userRefreshToken.setRefreshToken(refreshToken);
+        userRefreshToken.setUser(user);
+        userService.saveRefreshToken(userRefreshToken);
+
         Map<String, String> tokens = new HashMap<>();
         tokens.put("jwt", token);
         tokens.put("refreshToken", refreshToken);
@@ -78,7 +83,6 @@ public class UserController {
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setEmail(userDto.getEmail());
         user.setRole(RoleType.valueOf(userDto.getRole()));  // String에서 Enum으로 변환
-        user.setRefreshToken(userDto.getRefreshToken());
 
         return user;
     }
